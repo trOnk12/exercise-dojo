@@ -7,9 +7,9 @@ class ThreadLogger {
 
         fun logThread(source: String, message: String = "") {
             if (message.isEmpty()) {
-                Log.d("TEST", "I am working on ${Thread.currentThread()}. called from $source")
+                Log.d("TEST", "\n I am working on:[${Thread.currentThread()}] \n Called from: [$source]")
             } else {
-                Log.d("TEST", "I am working on :[${Thread.currentThread()}] \n called from: [$source]  \n message : $message]")
+                Log.d("TEST", "\n I am working on:[${Thread.currentThread()}] \n Called from: [$source]  \n Message : [$message]")
             }
         }
 

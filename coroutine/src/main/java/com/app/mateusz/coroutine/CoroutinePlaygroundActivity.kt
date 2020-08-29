@@ -3,6 +3,7 @@ package com.app.mateusz.coroutine
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.app.mateusz.android.ThreadLogger.Companion.logThread
 import kotlinx.android.synthetic.main.activity_coroutine_playground.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -20,9 +21,9 @@ class CoroutinePlaygroundActivity : AppCompatActivity() {
         button.setOnClickListener {
             GlobalScope.launch {
                 coroutinePlayground.startEmitting().collect {
-                    CoroutinePlayground.logThread("collect()", "before doSomeWork()")
+                    logThread("collect()", "before doSomeWork()")
                     doSomework()
-                    CoroutinePlayground.logThread("collect()", "collected value: $it")
+                    logThread("collect()", "collected value: $it")
                 }
             }
         }
@@ -30,10 +31,11 @@ class CoroutinePlaygroundActivity : AppCompatActivity() {
     }
 
     private suspend fun doSomework() {
-        CoroutinePlayground.logThread("doSomeWork()", "before delay()")
+        logThread("doSomeWork()", "before delay()")
         delay(1000)
-        CoroutinePlayground.logThread("doSomeWork()", "after delay()")
+        logThread("doSomeWork()", "after delay()")
     }
+
 }
 
 
