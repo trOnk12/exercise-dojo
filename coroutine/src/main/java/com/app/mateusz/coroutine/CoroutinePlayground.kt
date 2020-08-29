@@ -1,6 +1,9 @@
 package com.app.mateusz.coroutine
 
 import android.util.Log
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 
 class CoroutinePlayground {
@@ -20,12 +23,23 @@ class CoroutinePlayground {
         }
     }
 
-    fun startEmitting() = flow {
+    fun valueEmitter(value: (Int) -> Unit) {
         for (i in 1..10000) {
-            logThread("startEmitting()", "execution attempt :$i before emit()")
-            emit("$i done")
-            logThread("startEmitting()", "exceution attempt : $i after emit()")
+          //  logThread("valueEmitter()", "execution attempt :$i ")
+            value(i)
         }
     }
+
+    fun startEmitting() = callbackFlow {
+        valueEmitter {
+            val offerResult = offer(it)
+            if (offerResult == true) {
+                Log.d("TEST", "buffer is not overflown value is $it")
+            }
+
+        }
+        awaitClose { cancel() }
+    }
+
 
 }

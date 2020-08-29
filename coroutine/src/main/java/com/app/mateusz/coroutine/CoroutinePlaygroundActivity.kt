@@ -31,7 +31,7 @@ class CoroutinePlaygroundActivity : AppCompatActivity() {
 
     private suspend fun doSomework() {
         CoroutinePlayground.logThread("doSomeWork()", "before delay()")
-        delay(1000)
+        delay(2000)
         CoroutinePlayground.logThread("doSomeWork()", "after delay()")
     }
 }
