@@ -20,10 +20,14 @@ class CoroutinePlaygroundActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             coroutineScope.launch {
-                coroutinePlayground.startEmitting().collect {
-                    logThread("collect()", "before doSomeWork()")
-                    doSomework()
-                    logThread("collect()", "collected value: $it")
+                try {
+                    coroutinePlayground.startEmitting().collect {
+                        logThread("collect()", "before doSomeWork()")
+                        doSomework()
+                        logThread("collect()", "collected value: $it")
+                    }
+                } catch (exception: Exception) {
+                    logThread("courtineScope.launch()", "exception thrown")
                 }
             }
         }

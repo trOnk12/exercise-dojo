@@ -20,11 +20,7 @@ class CoroutinePlayground {
     fun startEmitting() = callbackFlow<Int> {
         valueEmitter {
             logThread("startEmitting()", "before sendBloccking(), value: $it ")
-            try {
-                sendBlocking(it)
-            } catch (exception: Exception) {
-                logThread("startEmitting()", "exception is thrown")
-            }
+            sendBlocking(it)
             logThread("startEmitting()", "after sendBloccking(), value: $it ")
         }
 
