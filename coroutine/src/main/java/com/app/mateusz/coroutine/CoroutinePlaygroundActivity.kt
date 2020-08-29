@@ -19,7 +19,7 @@ class CoroutinePlaygroundActivity : AppCompatActivity() {
         button.setOnClickListener {
             GlobalScope.launch {
                 coroutinePlayground.startEmitting().collect {
-                    Log.d("TEST","collected value $it")
+                    CoroutinePlayground.logThread("inside collect method $it")
                 }
             }
         }
