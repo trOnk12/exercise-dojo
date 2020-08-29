@@ -12,10 +12,10 @@ class DslPlaygroundActivity : AppCompatActivity() {
 
         test.setOnClickListener {
             val sausageDog = sausagesDog {
-                it.name = "Borys"
-                it.age = 6
-                it.color = "Brown"
-                it.length = 70.00
+                name = "Borys"
+                age = 6
+                color = "Brown"
+                length = 70.00
             }
 
             dsl_message.text = sausageDog.toString()
