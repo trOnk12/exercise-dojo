@@ -1,15 +1,15 @@
 package com.app.mateusz.dsl
 
 data class SausageDog(
-    val dogAppearance: DogAppearance? = null,
-    val owner: Owner? = null
+    val dogAppearance: DogAppearance?,
+    val owner: Owner?
 )
 
 data class DogAppearance(
-    val name: String? = "",
-    val age: Int? = 0,
-    val color: Color? = Color.BROWN,
-    val length: Double? = 0.00
+    val name: String,
+    val age: Int,
+    val color: Color,
+    val length: Double
 )
 
 enum class Color(name: String) {
@@ -17,7 +17,7 @@ enum class Color(name: String) {
     BLACK("black")
 }
 
-data class Owner(var name: String? = "", var country: String? = "")
+data class Owner(var name: String , var country: String)
 
 fun sausagesDog(block: SausageDogBuilder.() -> Unit) = SausageDogBuilder().apply(block).build()
 
@@ -42,10 +42,10 @@ class SausageDogBuilder {
 
 class DogAppearanceBuilder {
 
-    var name: String? = ""
-    var age: Int? = 0
+    var name: String = ""
+    var age: Int = 0
     var color: Color = Color.BROWN
-    var length: Double? = 00.00
+    var length: Double = 00.00
 
     fun build(): DogAppearance {
         return DogAppearance(name, age, color, length)
@@ -55,8 +55,8 @@ class DogAppearanceBuilder {
 
 class OwnerBuilder {
 
-    var name: String? = ""
-    var country: String? = ""
+    var name: String = ""
+    var country: String = ""
 
     fun build(): Owner {
         return Owner(name, country)
