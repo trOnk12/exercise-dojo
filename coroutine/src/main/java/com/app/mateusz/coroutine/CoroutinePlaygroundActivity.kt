@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_coroutine_playground.*
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -19,11 +20,19 @@ class CoroutinePlaygroundActivity : AppCompatActivity() {
         button.setOnClickListener {
             GlobalScope.launch {
                 coroutinePlayground.startEmitting().collect {
-                    CoroutinePlayground.logThread("inside collect method $it")
+                    CoroutinePlayground.logThread("collect()", "before doSomeWork()")
+                    doSomework()
+                    CoroutinePlayground.logThread("collect()", "collected value: $it")
                 }
             }
         }
 
+    }
+
+    private suspend fun doSomework() {
+        CoroutinePlayground.logThread("doSomeWork()", "before delay()")
+        delay(1000)
+        CoroutinePlayground.logThread("doSomeWork()", "after delay()")
     }
 }
 
