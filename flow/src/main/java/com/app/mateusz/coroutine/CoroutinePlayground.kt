@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
 
 class CoroutinePlayground {
-   private fun valueEmitter(value: (Int) -> Unit) {
+    private fun valueEmitter(value: (Int) -> Unit) {
         for (i in 1..100000) {
             logThread("valueEmitter()", "execution attempt :$i ")
             value(i)
@@ -20,12 +20,17 @@ class CoroutinePlayground {
     fun startEmitting() = callbackFlow<Int> {
         valueEmitter {
             logThread("startEmitting()", "before sendBloccking(), value: $it ")
-            sendBlocking(it)
+            try {
+                sendBlocking(it)
+            } catch (exception: Exception) {
+                logThread("startEmitting()", "exception is thrown")
+            }
             logThread("startEmitting()", "after sendBloccking(), value: $it ")
         }
-        awaitClose { cancel() }
+
+        awaitClose { logThread("awaitClose()") }
+
     }.flowOn(Dispatchers.Default)
         .buffer(100)
-
 
 }

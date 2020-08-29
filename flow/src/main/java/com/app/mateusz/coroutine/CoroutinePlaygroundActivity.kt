@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.util.Log
 import com.app.mateusz.android.ThreadLogger.Companion.logThread
 import kotlinx.android.synthetic.main.activity_coroutine_playground.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class CoroutinePlaygroundActivity : AppCompatActivity() {
+
+    private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     private val coroutinePlayground = CoroutinePlayground()
 
@@ -19,13 +19,17 @@ class CoroutinePlaygroundActivity : AppCompatActivity() {
         setContentView(R.layout.activity_coroutine_playground)
 
         button.setOnClickListener {
-            GlobalScope.launch {
+            coroutineScope.launch {
                 coroutinePlayground.startEmitting().collect {
                     logThread("collect()", "before doSomeWork()")
                     doSomework()
                     logThread("collect()", "collected value: $it")
                 }
             }
+        }
+
+        button2.setOnClickListener {
+            coroutineScope.cancel()
         }
 
     }
