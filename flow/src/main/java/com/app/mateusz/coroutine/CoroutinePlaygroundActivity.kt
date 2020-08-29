@@ -18,22 +18,38 @@ class CoroutinePlaygroundActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coroutine_playground)
 
+        val listOfJobs = mutableListOf<Job>()
+
         button.setOnClickListener {
-            coroutineScope.launch {
+            val job = coroutineScope.launch {
                 try {
-                    coroutinePlayground.startEmitting().collect {
+                    val flow = coroutinePlayground.startEmitting()
+
+                    flow.collect {
                         logThread("collect()", "before doSomeWork()")
                         doSomework()
                         logThread("collect()", "collected value: $it")
                     }
+
+                    logThread("try -> launch()", "after collect cancelling should not be executed")
+
                 } catch (exception: Exception) {
                     logThread("courtineScope.launch()", "exception thrown")
                 }
             }
+
+            listOfJobs.add(job)
+
+            job.invokeOnCompletion {
+                Log.d(
+                    "TEST",
+                    "invokeOnCompletion()" + it?.localizedMessage
+                )
+            }
         }
 
         button2.setOnClickListener {
-            coroutineScope.cancel()
+            listOfJobs[0].cancel()
         }
 
     }
