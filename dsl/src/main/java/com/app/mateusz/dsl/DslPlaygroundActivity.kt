@@ -18,13 +18,15 @@ class DslPlaygroundActivity : AppCompatActivity() {
                     color = Color.BROWN
                     length = 70.00
                 }
-                owner {
-                    name = "Mateusz"
-                    country = "Poland"
-                }
-                owner{
-                    name = "Dorota"
-                    country = "The Netherlands"
+                owners {
+                    owner {
+                        name = "Mateusz"
+                        country = "Poland"
+                    }
+                    owner {
+                        name = "Dorota"
+                        country = "The Netherlands"
+                    }
                 }
             }
 

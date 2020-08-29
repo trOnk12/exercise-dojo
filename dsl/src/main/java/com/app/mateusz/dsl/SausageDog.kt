@@ -24,10 +24,15 @@ fun sausagesDog(block: SausageDogBuilder.() -> Unit) = SausageDogBuilder().apply
 class SausageDogBuilder {
 
     private var dogAppearance: DogAppearance? = null
+
     private var owners = mutableListOf<Owner>()
 
     fun owner(block: OwnerBuilder.() -> Unit) {
         owners.add(OwnerBuilder().apply(block).build())
+    }
+
+    fun owners(block: OWNERS.() -> Unit) {
+        owners.addAll(OWNERS().apply(block))
     }
 
     fun dogAppearance(block: DogAppearanceBuilder.() -> Unit) {
@@ -36,6 +41,14 @@ class SausageDogBuilder {
 
     fun build(): SausageDog {
         return SausageDog(dogAppearance, owners)
+    }
+
+}
+
+class OWNERS : ArrayList<Owner>() {
+
+    fun owner(block: OwnerBuilder.() -> Unit) {
+        add(OwnerBuilder().apply(block).build())
     }
 
 }
