@@ -22,6 +22,10 @@ class DslPlaygroundActivity : AppCompatActivity() {
                     name = "Mateusz"
                     country = "Poland"
                 }
+                owner{
+                    name = "Dorota"
+                    country = "The Netherlands"
+                }
             }
 
             dsl_message.text = sausageDog.toString()

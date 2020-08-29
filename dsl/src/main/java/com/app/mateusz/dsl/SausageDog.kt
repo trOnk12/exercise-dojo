@@ -2,7 +2,7 @@ package com.app.mateusz.dsl
 
 data class SausageDog(
     val dogAppearance: DogAppearance?,
-    val owner: Owner?
+    val owner: List<Owner>
 )
 
 data class DogAppearance(
@@ -17,17 +17,17 @@ enum class Color(name: String) {
     BLACK("black")
 }
 
-data class Owner(var name: String , var country: String)
+data class Owner(var name: String, var country: String)
 
 fun sausagesDog(block: SausageDogBuilder.() -> Unit) = SausageDogBuilder().apply(block).build()
 
 class SausageDogBuilder {
 
     private var dogAppearance: DogAppearance? = null
-    private var owner: Owner? = null
+    private var owners = mutableListOf<Owner>()
 
     fun owner(block: OwnerBuilder.() -> Unit) {
-        owner = OwnerBuilder().apply(block).build()
+        owners.add(OwnerBuilder().apply(block).build())
     }
 
     fun dogAppearance(block: DogAppearanceBuilder.() -> Unit) {
@@ -35,7 +35,7 @@ class SausageDogBuilder {
     }
 
     fun build(): SausageDog {
-        return SausageDog(dogAppearance, owner)
+        return SausageDog(dogAppearance, owners)
     }
 
 }
