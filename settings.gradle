@@ -1,5 +1,5 @@
 rootProject.name='exercise'
-include ':coroutine'
+include ':flow'
 include ':core'
 include ':core:android'
 include ':dsl'
