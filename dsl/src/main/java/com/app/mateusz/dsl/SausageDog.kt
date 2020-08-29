@@ -8,9 +8,14 @@ data class SausageDog(
 data class DogAppearance(
     val name: String? = "",
     val age: Int? = 0,
-    val color: String? = "",
+    val color: Color? = Color.BROWN,
     val length: Double? = 0.00
 )
+
+enum class Color(name: String) {
+    BROWN("brown"),
+    BLACK("black")
+}
 
 data class Owner(var name: String? = "", var country: String? = "")
 
@@ -39,7 +44,7 @@ class DogAppearanceBuilder {
 
     var name: String? = ""
     var age: Int? = 0
-    var color: String? = ""
+    var color: Color = Color.BROWN
     var length: Double? = 00.00
 
     fun build(): DogAppearance {

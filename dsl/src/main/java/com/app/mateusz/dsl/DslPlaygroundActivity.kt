@@ -15,7 +15,7 @@ class DslPlaygroundActivity : AppCompatActivity() {
                 dogAppearance {
                     name = "Borys"
                     age = 6
-                    color = "Brown"
+                    color = Color.BROWN
                     length = 70.00
                 }
                 owner {
