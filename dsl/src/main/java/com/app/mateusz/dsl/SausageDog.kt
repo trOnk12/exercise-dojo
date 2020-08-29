@@ -7,9 +7,4 @@ data class SausageDog(
     var length: Double? = 0.00
 )
 
-fun sausagesDog(block: SausageDog.() -> Unit): SausageDog {
-    val sausageDog = SausageDog()
-    sausageDog.block()
-
-    return sausageDog
-}
+fun sausagesDog(block: SausageDog.() -> Unit) = SausageDog().apply(block)
