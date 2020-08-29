@@ -3,6 +3,7 @@ package com.app.mateusz.coroutine
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import com.app.mateusz.android.ThreadLogger.Companion.logThread
 import kotlinx.android.synthetic.main.activity_coroutine_playground.*
 import kotlinx.coroutines.*
@@ -14,42 +15,43 @@ class CoroutinePlaygroundActivity : AppCompatActivity() {
 
     private val coroutinePlayground = CoroutinePlayground()
 
+    private val adapter = Adapter()
+
+    lateinit var job: Job
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coroutine_playground)
 
-        val listOfJobs = mutableListOf<Job>()
+        rv.adapter = adapter
 
         button.setOnClickListener {
-            val job = coroutineScope.launch {
-                try {
-                    val flow = coroutinePlayground.startEmitting()
+            job = coroutineScope.launch {
+                val flow = coroutinePlayground.startEmitting()
 
-                    flow.collect {
-                        logThread("collect()", "before doSomeWork()")
-                        doSomework()
-                        logThread("collect()", "collected value: $it")
+                flow.collect {
+                    logThread("collect()", "before doSomeWork()")
+                    doSomework()
+                    logThread("collect()", "collected value: $it")
+
+                    withContext(Dispatchers.Main) {
+                        adapter.dataSet.add("collected value: $it")
+                        adapter.notifyDataSetChanged()
                     }
-
-                    logThread("try -> launch()", "after collect cancelling should not be executed")
-
-                } catch (exception: Exception) {
-                    logThread("courtineScope.launch()", "exception thrown")
                 }
-            }
 
-            listOfJobs.add(job)
+                logThread("try -> launch()", "after collect cancelling should not be executed")
+
+            }
 
             job.invokeOnCompletion {
-                Log.d(
-                    "TEST",
-                    "invokeOnCompletion()" + it?.localizedMessage
-                )
+                runOnUiThread { Toast.makeText(this, "Job is cancelled", Toast.LENGTH_LONG).show() }
             }
+
         }
 
         button2.setOnClickListener {
-            listOfJobs[0].cancel()
+            job.cancel()
         }
 
     }
