@@ -3,8 +3,10 @@ package com.app.mateusz.coroutine
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
+import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -27,7 +29,7 @@ class CoroutinePlayground {
     }
 
     fun valueEmitter(value: (Int) -> Unit) {
-        for (i in 1..10000) {
+        for (i in 1..100000) {
             logThread("valueEmitter()", "execution attempt :$i ")
             value(i)
         }
@@ -41,6 +43,7 @@ class CoroutinePlayground {
         }
         awaitClose { cancel() }
     }.flowOn(Dispatchers.Default)
+        .buffer(Channel.UNLIMITED)
 
 
 }
