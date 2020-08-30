@@ -25,7 +25,7 @@ class FlowPlaygroundActivity : AppCompatActivity() {
                 val excecutionTime = measureTimeMillis {
                     val flow = flowPlayground.emitValues()
 
-                    flow.collect {
+                    flow.buffer().collect {
                         Log.d("TEST", "collected value $it")
                         delay(200)
                     }
