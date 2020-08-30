@@ -31,7 +31,7 @@ class FlowPlaygroundActivity : AppCompatActivity() {
                     }
                 }
 
-                Log.d("TEST","exceution time $excecutionTime")
+                Log.d("TEST", "exceution time $excecutionTime")
             }
         }
     }
