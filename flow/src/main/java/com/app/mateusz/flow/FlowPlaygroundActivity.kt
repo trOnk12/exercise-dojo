@@ -5,10 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_flow_playground.*
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.buffer
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlin.system.measureTimeMillis
 
@@ -22,17 +20,22 @@ class FlowPlaygroundActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             GlobalScope.launch {
-                val excecutionTime = measureTimeMillis {
+                val executionTime = measureTimeMillis {
                     val flow = flowPlayground.emitValues()
 
-                    flow.buffer().collect {
-                        Log.d("TEST", "collected value $it")
-                        delay(200)
+                    try {
+                        flow.collectLatest {
+                            Log.d("TEST", "collected value $it")
+                            delay(200)
+                            Log.d("TEST", "done processing collected value")
+                        }
+                    } catch (exception: Exception) {
+                        Log.d("TEST", "exception has been thrown $exception")
                     }
                 }
 
-                Log.d("TEST", "exceution time $excecutionTime")
-            }
+                Log.d("TEST", "exceution time $executionTime")
+            }.invokeOnCompletion { Log.d("TEST", "completed the coroutine") }
         }
     }
 
