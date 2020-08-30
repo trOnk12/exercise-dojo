@@ -21,11 +21,15 @@ class FlowPlaygroundActivity : AppCompatActivity() {
         button.setOnClickListener {
             GlobalScope.launch {
                 val executionTime = measureTimeMillis {
-                    val flow1 = flowPlayground.emitValues()
-                    val flow2 = flowPlayground.emitStrings()
 
-                    flow1.combine(flow2) { a, b -> "$a -> $b" } // compose a single string
-                        .collect { Log.d("TEST", "result is $it") } // collect and print
+                    val flow = (1..3).asFlow().map { flowPlayground.requestFlow(1) }
+
+                    flow.collect {
+                        Log.d("TEST", "collected value $it")
+                        it.collect {
+                            Log.d("TEST", "collected value $it")
+                        }
+                    }
 
                 }
 

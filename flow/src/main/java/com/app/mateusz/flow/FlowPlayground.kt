@@ -2,24 +2,15 @@ package com.app.mateusz.flow
 
 import com.app.mateusz.android.ThreadLogger.Companion.logThread
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class FlowPlayground {
 
-    fun emitValues() = flow {
-        for (i in 1..3) {
-            delay(1000)
-            logThread("emitValues()")
-            emit(i)
-        }
-    }
-
-    fun emitStrings() = flow {
-        for (i in 10..15) {
-            delay(2000)
-            logThread("emitStrings()")
-            emit("I am emitting $i")
-        }
+    fun requestFlow(i: Int): Flow<String> = flow {
+        emit("$i: First")
+        delay(500) // wait 500 ms
+        emit("$i: Second")
     }
 
 }
