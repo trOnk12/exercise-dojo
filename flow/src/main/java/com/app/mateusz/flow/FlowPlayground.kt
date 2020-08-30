@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.flow
 class FlowPlayground {
 
     fun emitValues() = flow {
-        for (i in 1..5) {
+        for (i in 1..3) {
             logThread("emitValues()")
             emit(i)
         }
