@@ -8,6 +8,7 @@ class FlowPlayground {
 
     fun emitValues() = flow {
         for (i in 1..3) {
+            delay(1000)
             logThread("emitValues()")
             emit(i)
         }
