@@ -1,5 +1,6 @@
 rootProject.name='exercise'
-include ':flow'
+include ':callbackFlow'
 include ':core'
 include ':core:android'
 include ':dsl'
+include ':flow'
