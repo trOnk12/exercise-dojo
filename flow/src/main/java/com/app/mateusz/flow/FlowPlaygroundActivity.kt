@@ -6,8 +6,11 @@ import android.util.Log
 import kotlinx.android.synthetic.main.activity_flow_playground.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlin.system.measureTimeMillis
 
 class FlowPlaygroundActivity : AppCompatActivity() {
 
@@ -19,19 +22,16 @@ class FlowPlaygroundActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             GlobalScope.launch {
-                val flow = flowPlayground.emitValues()
-                try {
+                val excecutionTime = measureTimeMillis {
+                    val flow = flowPlayground.emitValues()
+
                     flow.collect {
-
                         Log.d("TEST", "collected value $it")
-                        if (it == 2) {
-                            cancel()
-                        }
-
+                        delay(200)
                     }
-                } catch (exception: Exception) {
-                    Log.d("TEST", "exception thrown ${exception.localizedMessage}")
                 }
+
+                Log.d("TEST","exceution time $excecutionTime")
             }
         }
     }
