@@ -11,7 +11,7 @@ import kotlin.coroutines.CoroutineContext
 class CoroutinePlaygroundActivity : AppCompatActivity(), CoroutineScope {
 
     override val coroutineContext: CoroutineContext
-        get() = Dispatchers.IO
+        get() = Dispatchers.IO + SupervisorJob()
 
     private var childJob: Job? = null
 
@@ -21,18 +21,13 @@ class CoroutinePlaygroundActivity : AppCompatActivity(), CoroutineScope {
 
         val job = launch {
 
-
             childJob = launch {
-                try {
                     for (i in 1..10000) {
                         Log.d("TEST", "child1 job value: $i isActive $isActive")
                         if (i == 6000) {
                           throw Exception("something went wrong")
                         }
                     }
-                } catch (exception: Exception) {
-                    Log.d("TEST", "caught exception from child ${exception.localizedMessage}")
-                }
                 Log.d("TEST", "child1 executing done")
             }
 
