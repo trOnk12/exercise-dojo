@@ -18,16 +18,16 @@ class CoroutinePlaygroundActivity : AppCompatActivity(), CoroutineScope {
         setContentView(R.layout.activity_coroutine_playground)
 
         val job = launch {
-                for (i in 1..1000000) {
-                    try {
-                        ensureActive()
-                        Log.d("TEST", "value: $i on thread ${Thread.currentThread()}")
-                    } catch (exception: Exception) {
-                        Log.d("TEST", "value: $i exception is thrown ${exception.localizedMessage}")
-                      // throw CancellationException()
-                    }
+            for (i in 1..1000000) {
+                try {
+                    ensureActive()
+                    Log.d("TEST", "value: $i on thread ${Thread.currentThread()}")
+                } catch (exception: Exception) {
+                    Log.d("TEST", "value: $i exception is thrown ${exception.localizedMessage}")
+                    throw CancellationException()
                 }
             }
+        }
 
         job.invokeOnCompletion { Log.d("TEST", "job completed with ${it?.localizedMessage}") }
 
