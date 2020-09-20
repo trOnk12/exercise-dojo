@@ -21,18 +21,23 @@ class CoroutinePlaygroundActivity : AppCompatActivity(), CoroutineScope {
 
         val job = launch {
 
+
             childJob = launch {
-                for (i in 1..100000) {
-                    Log.d("TEST", "child1 job value: $i isActive $isActive")
-                    if (i == 60000) {
-                        throw Exception()
+                try {
+                    for (i in 1..10000) {
+                        Log.d("TEST", "child1 job value: $i isActive $isActive")
+                        if (i == 6000) {
+                          throw Exception("something went wrong")
+                        }
                     }
+                } catch (exception: Exception) {
+                    Log.d("TEST", "caught exception from child ${exception.localizedMessage}")
                 }
                 Log.d("TEST", "child1 executing done")
             }
 
             childJob = launch {
-                for (i in 1..100000) {
+                for (i in 1..10000) {
                     Log.d("TEST", "child2 job value: $i isActive $isActive")
                 }
                 Log.d("TEST", "child2 executing done")
@@ -40,14 +45,14 @@ class CoroutinePlaygroundActivity : AppCompatActivity(), CoroutineScope {
 
 
             childJob = launch {
-                for (i in 1..100000) {
+                for (i in 1..10000) {
                     Log.d("TEST", "child3 job value: $i isActive $isActive")
                 }
                 Log.d("TEST", "child3 executing done")
             }
 
 
-            for (i in 1..100000) {
+            for (i in 1..10000) {
                 Log.d("TEST", "parent job value: $i isActive: $isActive")
             }
 
