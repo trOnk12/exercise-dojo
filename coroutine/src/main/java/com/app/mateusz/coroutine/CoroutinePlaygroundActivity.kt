@@ -13,26 +13,32 @@ class CoroutinePlaygroundActivity : AppCompatActivity(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.IO
 
+    private var childJob : Job? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coroutine_playground)
 
         val job = launch {
-            for (i in 1..1000000) {
-                try {
+
+           childJob =  launch {
+                for (i in 1..1000000) {
                     ensureActive()
-                    Log.d("TEST", "value: $i on thread ${Thread.currentThread()}")
-                } catch (exception: Exception) {
-                    Log.d("TEST", "value: $i exception is thrown ${exception.localizedMessage}")
-                    throw CancellationException()
+                    Log.d("TEST", "child job value: $i isActive $isActive")
                 }
+                Log.d("TEST", "child executing done")
             }
+
+            for (i in 1..1000000) {
+                ensureActive()
+                Log.d("TEST", "parent job value: $i isActive: $isActive")
+            }
+
+            Log.d("TEST", "parent executing done - should be executed, when child cancelled")
         }
 
-        job.invokeOnCompletion { Log.d("TEST", "job completed with ${it?.localizedMessage}") }
-
         button.setOnClickListener {
-            job.cancel()
+            childJob?.cancel()
         }
 
     }
