@@ -13,7 +13,7 @@ class CoroutinePlaygroundActivity : AppCompatActivity(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.IO
 
-    private var childJob : Job? = null
+    private var childJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,24 +21,37 @@ class CoroutinePlaygroundActivity : AppCompatActivity(), CoroutineScope {
 
         val job = launch {
 
-           childJob =  launch {
-                for (i in 1..1000000) {
-                    ensureActive()
-                    Log.d("TEST", "child job value: $i isActive $isActive")
+            childJob = launch {
+                for (i in 1..100000) {
+                    Log.d("TEST", "child1 job value: $i isActive $isActive")
+                    if (i == 60000) {
+                        throw Exception()
+                    }
                 }
-                Log.d("TEST", "child executing done")
+                Log.d("TEST", "child1 executing done")
             }
 
-            for (i in 1..1000000) {
-                ensureActive()
+            childJob = launch {
+                for (i in 1..100000) {
+                    Log.d("TEST", "child2 job value: $i isActive $isActive")
+                }
+                Log.d("TEST", "child2 executing done")
+            }
+
+
+            childJob = launch {
+                for (i in 1..100000) {
+                    Log.d("TEST", "child3 job value: $i isActive $isActive")
+                }
+                Log.d("TEST", "child3 executing done")
+            }
+
+
+            for (i in 1..100000) {
                 Log.d("TEST", "parent job value: $i isActive: $isActive")
             }
 
-            Log.d("TEST", "parent executing done - should be executed, when child cancelled")
-        }
-
-        button.setOnClickListener {
-            childJob?.cancel()
+            Log.d("TEST", "parent executing done - should not be executed, when child cancelled")
         }
 
     }
