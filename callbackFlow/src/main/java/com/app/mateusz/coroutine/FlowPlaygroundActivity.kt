@@ -2,18 +2,17 @@ package com.app.mateusz.coroutine
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.app.mateusz.android.ThreadLogger.Companion.logThread
-import kotlinx.android.synthetic.main.activity_coroutine_playground.*
+import kotlinx.android.synthetic.main.activity_flow_playground.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 
-class CoroutinePlaygroundActivity : AppCompatActivity() {
+class FlowPlaygroundActivity : AppCompatActivity() {
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
-    private val coroutinePlayground = CoroutinePlayground()
+    private val coroutinePlayground = FlowPlayground()
 
     private val adapter = Adapter()
 
@@ -21,7 +20,7 @@ class CoroutinePlaygroundActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_coroutine_playground)
+        setContentView(R.layout.activity_flow_playground)
 
         rv.adapter = adapter
 

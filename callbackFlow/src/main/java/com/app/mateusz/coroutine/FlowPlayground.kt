@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
 
-class CoroutinePlayground {
+class FlowPlayground {
     private fun valueEmitter(value: (Int) -> Unit) {
         for (i in 1..100000) {
             logThread("valueEmitter()", "execution attempt :$i ")
