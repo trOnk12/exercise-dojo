@@ -11,6 +11,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/callbackFlow" />
+            <option value="$PROJECT_DIR$/channel" />
             <option value="$PROJECT_DIR$/concurrenctFileSynchronization" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core/android" />

@@ -11,49 +11,47 @@ import kotlin.coroutines.CoroutineContext
 class CoroutinePlaygroundActivity : AppCompatActivity(), CoroutineScope {
 
     override val coroutineContext: CoroutineContext
-        get() = Dispatchers.IO + SupervisorJob()
+        get() = Dispatchers.Default + Job()
 
-    private var childJob: Job? = null
+    private var childJOb: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coroutine_playground)
 
-        val job = launch {
+        val supervisor = SupervisorJob()
+        launch {
+            with(CoroutineScope(coroutineContext + supervisor)) {
 
-            childJob = launch {
-                    for (i in 1..10000) {
-                        Log.d("TEST", "child1 job value: $i isActive $isActive")
-                        if (i == 6000) {
-                          throw Exception("something went wrong")
+                try {
+                    supervisorScope {
+
+                        launch {
+                            while (isActive) {
+                                Log.d("TEST", "logging child1")
+                                delay(1000)
+
+                                throw Exception()
+                            }
+                        }
+
+                        launch {
+                            while (isActive) {
+                                Log.d("TEST", "logging child1")
+                                delay(1000)
+                            }
                         }
                     }
-                Log.d("TEST", "child1 executing done")
-            }
-
-            childJob = launch {
-                for (i in 1..10000) {
-                    Log.d("TEST", "child2 job value: $i isActive $isActive")
+                } catch (exception: Exception) {
+                    Log.d("TEST", "exception thrown")
                 }
-                Log.d("TEST", "child2 executing done")
+
             }
 
-
-            childJob = launch {
-                for (i in 1..10000) {
-                    Log.d("TEST", "child3 job value: $i isActive $isActive")
-                }
-                Log.d("TEST", "child3 executing done")
+            button.setOnClickListener {
             }
 
-
-            for (i in 1..10000) {
-                Log.d("TEST", "parent job value: $i isActive: $isActive")
-            }
-
-            Log.d("TEST", "parent executing done - should not be executed, when child cancelled")
         }
-
     }
 
 }
