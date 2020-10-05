@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core/android" />
             <option value="$PROJECT_DIR$/coroutine" />
+            <option value="$PROJECT_DIR$/custom_view" />
             <option value="$PROJECT_DIR$/dsl" />
             <option value="$PROJECT_DIR$/flow" />
           </set>
